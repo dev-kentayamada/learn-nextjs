@@ -5,4 +5,5 @@ FROM mcr.microsoft.com/vscode/devcontainers/base:0-${VARIANT}
 
 RUN sed -i 's@archive.ubuntu.com@ftp.jaist.ac.jp/pub/Linux@g' /etc/apt/sources.list
 
-RUN apt-get update && export DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
+    && apt-get -y install --no-install-recommends python3-pip
