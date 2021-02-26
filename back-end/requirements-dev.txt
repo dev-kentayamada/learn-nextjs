@@ -1,0 +1,8 @@
+Django
+django-cors-headers
+djangorestframework
+djangorestframework-simplejwt
+djoser
+python-decouple
+dj-database-url
+dj_static
