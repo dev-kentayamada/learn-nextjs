@@ -1,0 +1,38 @@
+{
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "typescript.preferences.importModuleSpecifier": "relative",
+  "[typescript]": {
+    "editor.tabSize": 2,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": {
+      "editor.formatOnSave": false, //disable for eslint
+      "source.fixAll": true,
+      "source.organizeImports": true
+    }
+  },
+  "[typescriptreact]": {
+    "editor.tabSize": 2,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": {
+      "editor.formatOnSave": false, //disable for eslint
+      "source.fixAll": true,
+      "source.organizeImports": true
+    }
+  },
+  "typescript.tsserver.maxTsServerMemory": 12288,
+  "eslint.lintTask.enable": true,
+  "eslint.alwaysShowStatus": true,
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/package-lock.json": true,
+    "**/devcontainer.json": true
+  }
+}
