@@ -1,10 +1,14 @@
-import { Box, Button, Grid, LinearProgress, Link, TextField } from '@material-ui/core';
-import React, { useState } from 'react';
+import { Box, Button, CircularProgress, Grid, Link, TextField } from '@material-ui/core';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import Cookie from 'universal-cookie';
 import { Layout } from './Layout';
 
+const cookie = new Cookie();
+
 type AuthForm = {
-  email: string;
+  username: string;
   password: string;
 };
 
@@ -16,11 +20,58 @@ export const Auth: React.FC = () => {
     formState: { isSubmitting },
   } = useForm<AuthForm>();
 
-  const [login, setLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(true);
+  const router = useRouter();
+
+  const login = async (props: AuthForm) => {
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 5000)); // 3秒待つ
+      await fetch(`${process.env.NEXT_PUBLIC_RESTAPI_URL}api/auth/jwt/create/`, {
+        method: 'POST',
+        body: JSON.stringify({ username: props.username, password: props.password }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then((res) => {
+          if (res.status === 400) {
+            throw 'authentication failed';
+          } else if (res.ok) {
+            return res.json();
+          }
+        })
+        .then((data) => {
+          const options = { path: '/' };
+          cookie.set('access_token', data.access, options);
+        });
+      router.push('/home');
+    } catch (err) {
+      alert(err);
+    }
+  };
+
+  const signup = async (props: AuthForm) => {
+    try {
+      await fetch(`${process.env.NEXT_PUBLIC_RESTAPI_URL}api/register/`, {
+        method: 'POST',
+        body: JSON.stringify({ username: props.username, password: props.password }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }).then((res) => {
+        if (res.status === 400) {
+          throw 'authentication failed';
+        }
+      });
+      login(props);
+    } catch (err) {
+      alert(err);
+    }
+  };
 
   return (
     <>
-      <Layout title="Login/Singup">
+      <Layout title={isLogin ? 'Login' : 'Signup'}>
         <Box
           sx={{
             display: 'flex',
@@ -30,7 +81,11 @@ export const Auth: React.FC = () => {
           }}
         >
           <Box sx={{ width: '50%' }}>
-            <form onSubmit={handleSubmit((data: AuthForm) => console.log(data))}>
+            <form
+              onSubmit={handleSubmit((data: AuthForm) => {
+                isLogin ? login(data) : signup(data);
+              })}
+            >
               <Grid
                 container
                 sx={{
@@ -40,19 +95,19 @@ export const Auth: React.FC = () => {
                 }}
               >
                 <Grid item xs={12} sx={{ textAlign: 'center' }}>
-                  {login ? 'Login' : 'Signup'}
+                  {isLogin ? 'Login' : 'Signup'}
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
-                    label="メール"
+                    label="名前"
                     fullWidth
-                    name="email"
-                    type="email"
+                    name="username"
+                    type="text"
                     inputRef={register({
                       required: 'required!',
                     })}
-                    error={Boolean(errors.email)}
-                    helperText={errors.email && errors.email.message}
+                    error={Boolean(errors.username)}
+                    helperText={errors.username && errors.username.message}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -70,23 +125,23 @@ export const Auth: React.FC = () => {
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  {isSubmitting && <LinearProgress />}
-                  <Button fullWidth variant="contained" type="submit">
-                    {login ? 'ログイン':'登録する'}
+                  {isSubmitting && <CircularProgress />}
+                  <Button disabled={isSubmitting} fullWidth variant="contained" type="submit">
+                    {isLogin ? 'ログイン' : '登録する'}
                   </Button>
                 </Grid>
                 <Grid item xs={12} sx={{ alignItems: 'center', justifyContent: 'center', display: 'flex' }}>
                   <Box sx={{ fontSize: '1rem' }}>
-                    {login ? 'アカウントをお持ちでないですか？' : 'アカウントをお持ちですか？'}
+                    {isLogin ? 'アカウントをお持ちでないですか？' : 'アカウントをお持ちですか？'}
                     <Link
                       component="button"
                       variant="body2"
-                      onClick={() => (login ? setLogin(false) : setLogin(true))}
+                      onClick={() => (isLogin ? setIsLogin(false) : setIsLogin(true))}
                       type="button"
                       sx={{ fontSize: '1rem' }}
                       underline="none"
                     >
-                      {login ? '登録する' : 'ログインする'}
+                      {isLogin ? '登録する' : 'ログインする'}
                     </Link>
                   </Box>
                 </Grid>
