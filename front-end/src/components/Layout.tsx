@@ -1,18 +1,15 @@
-import { Box } from '@material-ui/core'
-import Head from 'next/head'
-import Image from 'next/image'
-import React, { ReactNode } from 'react'
-import Link from './Link'
+import { Box } from '@material-ui/core';
+import Head from 'next/head';
+import Image from 'next/image';
+import React, { ReactNode } from 'react';
+import Link from './Link';
 
 type Props = {
-  children: ReactNode
-  title: string
-}
+  children: ReactNode;
+  title?: string;
+};
 
-export const Layout = ({
-  children,
-  title = 'This is the default title'
-}: Props): JSX.Element => (
+export const Layout = ({ children, title = 'Learn Next.Js' }: Props): JSX.Element => (
   <>
     <Head>
       <title>{title}</title>
@@ -25,7 +22,7 @@ export const Layout = ({
         backgroundColor: '#fafafa',
         justifyContent: 'center',
         alignItems: 'center',
-        display: 'flex'
+        display: 'flex',
       }}
     >
       <Box>
@@ -46,7 +43,7 @@ export const Layout = ({
         justifyContent: 'center',
         alignItems: 'center',
         display: 'flex',
-        backgroundColor: '#fafafa'
+        backgroundColor: '#fafafa',
       }}
     >
       <Link
@@ -54,19 +51,13 @@ export const Layout = ({
           color: 'black',
           justifyContent: 'center',
           alignItems: 'center',
-          display: 'flex'
+          display: 'flex',
         }}
         underline="none"
         href={'https://vercel.com/'}
       >
-        Powered by{' '}
-        <Image
-          src="/vercel.svg"
-          alt="Picture of vercel"
-          width={100}
-          height={20}
-        />
+        Powered by <Image src="/vercel.svg" alt="Picture of vercel" width={100} height={20} />
       </Link>
     </Box>
   </>
-)
+);
