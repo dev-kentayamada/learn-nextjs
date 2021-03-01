@@ -15,6 +15,7 @@ export const getStaticProps = async (): Promise<{
   props: {
     filteredPosts: Post[];
   };
+  revalidate: number;
 }> => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_RESTAPI_URL}api/list-post/`);
   const posts: Post[] = await res.json();
@@ -23,6 +24,10 @@ export const getStaticProps = async (): Promise<{
     props: {
       filteredPosts,
     },
+    // Next.js will attempt to re-generate the page:
+    // - When a request comes in
+    // - At most once every second
+    revalidate: 1, // In seconds
   };
 };
 
