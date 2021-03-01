@@ -48,7 +48,7 @@ export default function Page({ staticfilterdTasks }: InferGetStaticPropsType<typ
               <Box key={index}>
                 <Link
                   href={{
-                    pathname: '/',
+                    pathname: `/tasks/${task.id}`,
                   }}
                 >
                   {task.id}: {task.title}
