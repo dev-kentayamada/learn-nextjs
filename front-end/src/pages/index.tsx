@@ -1,6 +1,10 @@
-import { Box } from '@material-ui/core'
-import React from 'react'
+import React from 'react';
+import { Auth } from '../components/Auth';
 
-export default function Home(): JSX.Element {
-  return <Box sx={{ color: 'blue' }}>Hello world!</Box>
+export default function Root(): JSX.Element {
+  return (
+    <>
+      <Auth />
+    </>
+  );
 }

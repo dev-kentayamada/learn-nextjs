@@ -7,7 +7,6 @@ import Head from 'next/head'
 import * as React from 'react'
 import theme from '../components/theme'
 
-
 export const cache = createCache({ key: 'css', prepend: true })
 
 export default function MyApp(props: AppProps): JSX.Element {
