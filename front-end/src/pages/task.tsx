@@ -43,11 +43,7 @@ export default function Page({ staticfilterdTasks }: InferGetStaticPropsType<typ
     <>
       <Layout title="task">
         <Box sx={{ textAlign: 'center' }}>
-          {filteredTasks &&
-            filteredTasks.map((task, index) => (
-              <Task key={index} task={task} taskDeleted={mutate} />
-
-            ))}
+          {filteredTasks && filteredTasks.map((task, index) => <Task key={index} task={task} taskDeleted={mutate} />)}
         </Box>
       </Layout>
     </>
