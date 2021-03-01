@@ -3,7 +3,7 @@ import { InferGetStaticPropsType } from 'next';
 import React, { useEffect } from 'react';
 import useSWR from 'swr';
 import { Layout } from '../components/Layout';
-import Link from '../components/Link';
+import { Task } from '../components/Task';
 
 type Task = {
   id: string;
@@ -45,15 +45,8 @@ export default function Page({ staticfilterdTasks }: InferGetStaticPropsType<typ
         <Box sx={{ textAlign: 'center' }}>
           {filteredTasks &&
             filteredTasks.map((task, index) => (
-              <Box key={index}>
-                <Link
-                  href={{
-                    pathname: `/tasks/${task.id}`,
-                  }}
-                >
-                  {task.id}: {task.title}
-                </Link>
-              </Box>
+              <Task key={index} task={task} taskDeleted={mutate} />
+
             ))}
         </Box>
       </Layout>
