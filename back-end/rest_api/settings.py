@@ -57,7 +57,11 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-CORS_ORIGIN_WHITELIST = ["http://localhost:3001"]
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:3001",
+    "https://learn-nextjs-dev-kentayamada.vercel.app",
+    "https://learn-nextjs-git-develop-dev-kentayamada.vercel.app",
+]
 
 SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ("JWT",),
