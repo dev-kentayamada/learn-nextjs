@@ -4,8 +4,8 @@ import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import useSWR from 'swr';
 import Cookie from 'universal-cookie';
-import { Layout } from '../components/Layout';
-import { Task } from '../components/Task';
+import { Layout } from '../../components/Layout';
+import { Task } from '../../components/Task';
 
 const cookie = new Cookie();
 
@@ -37,7 +37,7 @@ export const getStaticProps = async (): Promise<{
   };
 };
 
-export default function Page({ staticfilterdTasks }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element {
+export default function Tasks({ staticfilterdTasks }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element {
   const { data: tasks, mutate } = useSWR<Task[]>(`${process.env.NEXT_PUBLIC_RESTAPI_URL}api/list-task/`, {
     initialData: staticfilterdTasks,
   });
@@ -71,7 +71,7 @@ export default function Page({ staticfilterdTasks }: InferGetStaticPropsType<typ
 
   return (
     <>
-      <Layout title="task">
+      <Layout title="Tasks">
         <form
           onSubmit={handleSubmit((data: Form) => {
             create(data);

@@ -1,8 +1,8 @@
 import { Box } from '@material-ui/core';
 import { InferGetStaticPropsType } from 'next';
 import React from 'react';
-import { Layout } from '../components/Layout';
-import Link from '../components/Link';
+import { Layout } from '../../components/Layout';
+import Link from '../../components/Link';
 
 type Post = {
   id: string;
@@ -31,15 +31,15 @@ export const getStaticProps = async (): Promise<{
   };
 };
 
-export default function Blog({ filteredPosts }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element {
+export default function Blogs({ filteredPosts }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element {
   return (
-    <Layout title="blog">
+    <Layout title="Blogs">
       <Box sx={{ textAlign: 'center' }}>
         {filteredPosts.map((post, index) => (
           <Box key={index}>
             <Link
               href={{
-                pathname: `/posts/${post.id}`,
+                pathname: `/blogs/${post.id}`,
               }}
             >
               {post.id}: {post.title}

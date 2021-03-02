@@ -43,7 +43,7 @@ export const getStaticProps: GetStaticProps<Props, Post> = async ({ params }) =>
   };
 };
 
-export default function Page({ post }: Props): JSX.Element {
+export default function Blog({ post }: Props): JSX.Element {
   const router = useRouter();
   if (router.isFallback || !post) {
     return <Box>Loading...</Box>;

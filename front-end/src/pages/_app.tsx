@@ -23,8 +23,9 @@ export default function MyApp(props: AppProps): JSX.Element {
   return (
     <CacheProvider value={cache}>
       <Head>
-        <title>My page</title>
-        <meta name="viewport" content="initial-scale=1, width=device-width" />
+        <title>Loading...</title>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <ThemeProvider theme={theme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}

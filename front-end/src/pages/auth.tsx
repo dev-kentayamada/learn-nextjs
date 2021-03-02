@@ -1,9 +1,9 @@
 import { Box, Button, CircularProgress, Grid, Link, TextField } from '@material-ui/core';
-import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import Router, { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Cookie from 'universal-cookie';
-import { Layout } from './Layout';
+import { Layout } from '../components/Layout';
 
 const cookie = new Cookie();
 
@@ -12,7 +12,7 @@ type AuthForm = {
   password: string;
 };
 
-export const Auth: React.FC = () => {
+export default function Auth(): JSX.Element {
   const {
     handleSubmit,
     register,
@@ -43,7 +43,7 @@ export const Auth: React.FC = () => {
           const options = { path: '/' };
           cookie.set('access_token', data.access, options);
         });
-      router.push('/home');
+      router.push('/');
     } catch (err) {
       alert(err);
     }
@@ -67,6 +67,12 @@ export const Auth: React.FC = () => {
       alert(err);
     }
   };
+
+  useEffect(() => {
+    if (cookie.get('access_token')) Router.push('/');
+  }, []);
+
+  if (cookie.get('access_token')) return <>Loading...</>;
 
   return (
     <>
@@ -151,4 +157,4 @@ export const Auth: React.FC = () => {
       </Layout>
     </>
   );
-};
+}
