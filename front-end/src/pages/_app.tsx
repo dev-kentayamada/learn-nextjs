@@ -23,7 +23,7 @@ export default function MyApp(props: AppProps): JSX.Element {
   return (
     <CacheProvider value={cache}>
       <Head>
-        <title>My page</title>
+        <title>Loading...</title>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <ThemeProvider theme={theme}>
