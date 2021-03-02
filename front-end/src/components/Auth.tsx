@@ -1,6 +1,6 @@
 import { Box, Button, CircularProgress, Grid, Link, TextField } from '@material-ui/core';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Cookie from 'universal-cookie';
 import { Layout } from './Layout';

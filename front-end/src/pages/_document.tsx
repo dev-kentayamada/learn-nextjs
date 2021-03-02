@@ -1,11 +1,11 @@
-import createEmotionServer from '@emotion/server/create-instance'
-import { ServerStyleSheets } from '@material-ui/core/styles'
-import Document, { Head, Html, Main, NextScript } from 'next/document'
-import * as React from 'react'
-import theme from '../components/theme'
-import { cache } from './_app'
+import createEmotionServer from '@emotion/server/create-instance';
+import { ServerStyleSheets } from '@material-ui/core/styles';
+import Document, { Head, Html, Main, NextScript } from 'next/document';
+import * as React from 'react';
+import theme from '../components/theme';
+import { cache } from './_app';
 
-const { extractCritical } = createEmotionServer(cache)
+const { extractCritical } = createEmotionServer(cache);
 
 export default class MyDocument extends Document {
   render(): JSX.Element {
@@ -14,17 +14,14 @@ export default class MyDocument extends Document {
         <Head>
           {/* PWA primary color */}
           <meta name="theme-color" content={theme.palette.primary.main} />
-          <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-          />
+          <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
         </Head>
         <body>
           <Main />
           <NextScript />
         </body>
       </Html>
-    )
+    );
   }
 }
 
@@ -54,16 +51,16 @@ MyDocument.getInitialProps = async (ctx) => {
   // 4. page.render
 
   // Render app and page and get the context of the page with collected side effects.
-  const sheets = new ServerStyleSheets()
-  const originalRenderPage = ctx.renderPage
+  const sheets = new ServerStyleSheets();
+  const originalRenderPage = ctx.renderPage;
 
   ctx.renderPage = () =>
     originalRenderPage({
-      enhanceApp: (App) => (props) => sheets.collect(<App {...props} />)
-    })
+      enhanceApp: (App) => (props) => sheets.collect(<App {...props} />),
+    });
 
-  const initialProps = await Document.getInitialProps(ctx)
-  const styles = extractCritical(initialProps.html)
+  const initialProps = await Document.getInitialProps(ctx);
+  const styles = extractCritical(initialProps.html);
 
   return {
     ...initialProps,
@@ -76,7 +73,7 @@ MyDocument.getInitialProps = async (ctx) => {
         data-emotion={`css ${styles.ids.join(' ')}`}
         // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{ __html: styles.css }}
-      />
-    ]
-  }
-}
+      />,
+    ],
+  };
+};
