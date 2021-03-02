@@ -25,7 +25,6 @@ export const Auth: React.FC = () => {
 
   const login = async (props: AuthForm) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 5000)); // 3秒待つ
       await fetch(`${process.env.NEXT_PUBLIC_RESTAPI_URL}api/auth/jwt/create/`, {
         method: 'POST',
         body: JSON.stringify({ username: props.username, password: props.password }),
