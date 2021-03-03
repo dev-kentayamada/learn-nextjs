@@ -46,7 +46,7 @@ export const getStaticProps: GetStaticProps<Props, Task> = async ({ params }) =>
   };
 };
 
-export default function Task({ errorCode, staticTask }: Props): JSX.Element {
+export default function TaskPage({ errorCode, staticTask }: Props): JSX.Element {
   const router = useRouter();
   const { data: task, mutate } = useSWR<Task>(
     `${process.env.NEXT_PUBLIC_RESTAPI_URL}api/detail-task/${staticTask?.id}`,
