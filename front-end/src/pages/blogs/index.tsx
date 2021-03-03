@@ -11,7 +11,7 @@ type Blog = {
 };
 
 type Props = {
-  filteredBlogs: Blog[];
+  blogs: Blog[];
 };
 
 export const getServerSideProps: GetServerSideProps<Props, Blog> = async () => {
@@ -25,31 +25,34 @@ export const getServerSideProps: GetServerSideProps<Props, Blog> = async () => {
     };
   }
   const blogs: Blog[] = await res.json();
-  const filteredBlogs = blogs.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
 
   return {
     props: {
-      filteredBlogs,
+      blogs,
     },
   };
 };
 
-export default function Blogs({ filteredBlogs }: InferGetServerSidePropsType<typeof getServerSideProps>): JSX.Element {
+export default function Blogs({ blogs }: InferGetServerSidePropsType<typeof getServerSideProps>): JSX.Element {
+  const filteredBlogs = blogs.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+
   return (
-    <Layout title="Blogs">
-      <ol>
-        {filteredBlogs.map((blog, index) => (
-          <li key={index}>
-            <Link
-              href={{
-                pathname: `/blogs/${blog.id}`,
-              }}
-            >
-              {blog.title}
-            </Link>
-          </li>
-        ))}
-      </ol>
-    </Layout>
+    <>
+      <Layout title="Blogs">
+        <ol>
+          {filteredBlogs.map((blog, index) => (
+            <li key={index}>
+              <Link
+                href={{
+                  pathname: `/blogs/${blog.id}`,
+                }}
+              >
+                {blog.title}
+              </Link>
+            </li>
+          ))}
+        </ol>
+      </Layout>
+    </>
   );
 }

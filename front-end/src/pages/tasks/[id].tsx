@@ -27,6 +27,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
       },
     };
   });
+
   return {
     paths,
     fallback: true,
@@ -37,6 +38,7 @@ export const getStaticProps: GetStaticProps<Props, Task> = async ({ params }) =>
   const res = await fetch(`${process.env.NEXT_PUBLIC_RESTAPI_URL}api/detail-task/${params?.id}/`);
   const errorCode = res.ok ? false : res.status;
   const staticTask: Task = await res.json();
+
   return {
     props: { errorCode, staticTask },
     // Next.js will attempt to re-generate the page:
@@ -54,15 +56,12 @@ export default function TaskPage({ errorCode, staticTask }: Props): JSX.Element 
       initialData: staticTask,
     },
   );
-
   useEffect(() => {
     mutate();
   }, [mutate]);
-
   if (router.isFallback || !task) {
     return <Box>Loading...</Box>;
   }
-
   if (typeof errorCode === 'number') {
     return <Error statusCode={errorCode} />;
   }
