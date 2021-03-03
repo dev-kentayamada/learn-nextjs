@@ -50,7 +50,7 @@ export default function Home(): JSX.Element {
                   pathname: '/tasks',
                 }}
               >
-                See Tasks
+                See Tasks (SSG/ISR/CSR)
               </Button>
             </Box>
             <Box width={1}>
