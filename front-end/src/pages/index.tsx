@@ -38,7 +38,7 @@ export default function Home(): JSX.Element {
                   pathname: '/blogs',
                 }}
               >
-                see Blogs
+                see blogs (SSR)
               </Button>
             </Box>
             <Box width={1}>
@@ -50,7 +50,7 @@ export default function Home(): JSX.Element {
                   pathname: '/tasks',
                 }}
               >
-                See Tasks
+                see tasks (SSG/ISR/CSR)
               </Button>
             </Box>
             <Box width={1}>

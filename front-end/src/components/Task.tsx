@@ -1,6 +1,7 @@
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Box, Button, IconButton, Popover, TextField } from '@material-ui/core';
+import { Button, IconButton, Popover, TextField } from '@material-ui/core';
+import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Cookie from 'universal-cookie';
@@ -24,6 +25,7 @@ type Form = {
 const cookie = new Cookie();
 
 export const Task: React.FC<Props> = (props) => {
+  const router = useRouter();
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const {
     handleSubmit,
@@ -41,7 +43,9 @@ export const Task: React.FC<Props> = (props) => {
       },
     }).then((res) => {
       if (res.status === 401) {
-        alert('JWT Token not valid');
+        alert('Please login before delete task');
+        cookie.remove('access_token');
+        router.push('/auth');
       }
     });
     props.deleteCache();
@@ -57,7 +61,9 @@ export const Task: React.FC<Props> = (props) => {
       },
     }).then((res) => {
       if (res.status === 401) {
-        alert('JWT Token not valid');
+        alert('Please login before update task');
+        cookie.remove('access_token');
+        router.push('/auth');
       }
     });
     props.deleteCache();
@@ -65,56 +71,54 @@ export const Task: React.FC<Props> = (props) => {
 
   return (
     <>
-      <Box>
-        <Link
-          href={{
-            pathname: `/tasks/${props.task.id}`,
-          }}
+      <Link
+        href={{
+          pathname: `/tasks/${props.task.id}`,
+        }}
+      >
+        {props.task.title}
+      </Link>
+      <IconButton onClick={deleteTask}>
+        <FontAwesomeIcon icon={faTrash} />
+      </IconButton>
+      <IconButton onClick={(e) => setAnchorEl(e.currentTarget)}>
+        <FontAwesomeIcon icon={faEdit} />
+      </IconButton>
+      <Popover
+        open={Boolean(anchorEl)}
+        anchorEl={anchorEl}
+        onClose={() => setAnchorEl(null)}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
+      >
+        <form
+          onSubmit={handleSubmit((data: Form) => {
+            update(data.title);
+            reset({ title: '' });
+          })}
         >
-          {props.task.id}: {props.task.title}
-        </Link>
-        <IconButton onClick={deleteTask}>
-          <FontAwesomeIcon icon={faTrash} />
-        </IconButton>
-        <IconButton onClick={(e) => setAnchorEl(e.currentTarget)}>
-          <FontAwesomeIcon icon={faEdit} />
-        </IconButton>
-        <Popover
-          open={Boolean(anchorEl)}
-          anchorEl={anchorEl}
-          onClose={() => setAnchorEl(null)}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'center',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'center',
-          }}
-        >
-          <form
-            onSubmit={handleSubmit((data: Form) => {
-              update(data.title);
-              reset({ title: '' });
+          <TextField
+            label="Task"
+            name="title"
+            type="text"
+            defaultValue={props.task.title}
+            inputRef={register({
+              required: 'required!',
             })}
-          >
-            <TextField
-              label="Task"
-              name="title"
-              type="text"
-              defaultValue={props.task.title}
-              inputRef={register({
-                required: 'required!',
-              })}
-              error={Boolean(errors.title)}
-              helperText={errors.title && errors.title.message}
-            />
-            <Button disabled={isSubmitting} variant="contained" type="submit">
-              UPDATE
-            </Button>
-          </form>
-        </Popover>
-      </Box>
+            error={Boolean(errors.title)}
+            helperText={errors.title && errors.title.message}
+          />
+          <Button disabled={isSubmitting} variant="contained" type="submit">
+            UPDATE
+          </Button>
+        </form>
+      </Popover>
     </>
   );
 };

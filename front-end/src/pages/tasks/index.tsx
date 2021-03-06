@@ -1,4 +1,4 @@
-import { Box, Button, TextField } from '@material-ui/core';
+import { Button, TextField } from '@material-ui/core';
 import { InferGetStaticPropsType } from 'next';
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -92,9 +92,14 @@ export default function Tasks({ staticfilterdTasks }: InferGetStaticPropsType<ty
             CREATE
           </Button>
         </form>
-        <Box sx={{ textAlign: 'center' }}>
-          {filteredTasks && filteredTasks.map((task, index) => <Task key={index} task={task} deleteCache={mutate} />)}
-        </Box>
+        <ol>
+          {filteredTasks &&
+            filteredTasks.map((task, index) => (
+              <li key={index}>
+                <Task task={task} deleteCache={mutate} />
+              </li>
+            ))}
+        </ol>
       </Layout>
     </>
   );
